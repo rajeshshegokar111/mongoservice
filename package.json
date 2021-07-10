@@ -1,0 +1,21 @@
+{
+  "name": "poc",
+  "version": "1.0.0",
+  "description": "mongodb atlas crud services",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run",
+    "start": "node index.js"
+  },
+  "author": "Rajesh S",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "mongodb": "^3.6.9",
+    "urllib": "^2.37.2"
+  },
+  "devDependencies": {
+    "node-digest-auth-client": "^1.0.6",
+    "request-digest": "^1.0.13"
+  }
+}
