@@ -66,14 +66,14 @@ async function getAllProject(){
 };
 
 
-async function createClusterInProject(){
+async function createClusterInProject(clusterName){
   
   const options = {
       method: 'POST',
       rejectUnauthorized: false,
       digestAuth: "ketooowq:442b2888-a100-421d-b898-4de6478009b6",
       data: {
-        "name": "SingleRegionCluster",
+        "name": clusterName,
         "diskSizeGB": 100,
         "numShards": 1,
         "providerSettings": {
@@ -139,15 +139,15 @@ async function getAllUserInOneProject(){
     await httpClient.request(config.baseUrl + '/groups/60eda065c7b14116570d0b32/users', options, responseHandler);
 };
 
-async function createTeamInProject(){
+async function createTeamInProject(teamName, username){
   
   const options = {
       method: 'POST',
       rejectUnauthorized: false,
       digestAuth: "ketooowq:442b2888-a100-421d-b898-4de6478009b6",
       data: { 
-              name : "Testteam", 
-              usernames: ["rajeshshegokar510@gmail.com"] 
+              name : teamName, 
+              usernames: [username]       // emailId 
             },
       headers: { 
         'Content-Type': 'application/json'
@@ -165,14 +165,14 @@ async function createTeamInProject(){
     await httpClient.request(config.baseUrl + '/orgs/'+ config.orgId + '/teams', options, responseHandler);
 };
 
-async function addUserToOrg(){
+async function addUserToOrg(emailId){
   
   const options = {
       method: 'POST',
       rejectUnauthorized: false,
       digestAuth: "ketooowq:442b2888-a100-421d-b898-4de6478009b6",
       data: {
-              "username":"jiten.miglani@janbask.com",
+              "username": emailId,
               "roles":["ORG_MEMBER"] // can add multiple role
             },
       headers: { 
@@ -191,14 +191,14 @@ async function addUserToOrg(){
     await httpClient.request(config.baseUrl + '/orgs/'+ config.orgId + '/invites', options, responseHandler);
 };
 
-async function addUserToTeam(){
+async function addUserToTeam(emailId){
   
   const options = {
       method: 'POST',
       rejectUnauthorized: false,
       digestAuth: "ketooowq:442b2888-a100-421d-b898-4de6478009b6",
       data: {
-              "id" : "jiten.miglani@janbask.com" 
+              "id" : emailId 
             },
       headers: { 
         'Content-Type': 'application/json'

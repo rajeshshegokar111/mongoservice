@@ -43,7 +43,7 @@ async function getAllProjectInOrg(){
 
 async function createCluster(){
     try {
-        const response = await createClusterInProject();
+        const response = await createClusterInProject('FirstCluster');
         console.log('response -> ', response);
  
     } catch (e) {
@@ -56,7 +56,7 @@ async function createCluster(){
 //getAllProjectInOrg().catch(console.error);
 // createProjectInOrg('secondProject').catch(console.error);
 //getAllUserInOneProject().catch(console.error);
-//createTeamInProject().catch(console.error); // error in atlas api 
-//addUserToOrg().catch(console.error);
-addUserToTeam().catch(console.error);
+//createTeamInProject('team', 'rajeshshegokar510@gmail.com').catch(console.error); // error in atlas api 
+//addUserToOrg('"jiten.miglani@janbask.com"').catch(console.error);
+addUserToTeam("jiten.miglani@janbask.com").catch(console.error);
 // main().catch(console.error);
