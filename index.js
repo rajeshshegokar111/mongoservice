@@ -2,7 +2,7 @@ const { MongoClient, Db } = require('mongodb');
 const uri = "mongodb+srv://mongoadminuser:mongoadminpassword@cluster0.vbvmm.mongodb.net/first_database?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 const {listDatabases, createProject, getAllProject, createClusterInProject, getAllUserInOneProject, createTeamInProject
-,addUserToOrg, addUserToTeam} = require('./service');
+,addUserToOrg, addUserToTeam, getDatabaseUsersfromProjectId} = require('./service');
 
 async function main(){
     try {
@@ -43,7 +43,7 @@ async function getAllProjectInOrg(){
 
 async function createCluster(){
     try {
-        const response = await createClusterInProject('FirstCluster');
+        const response = await createClusterInProject('FirstCluster','61017ea7811566202c046b85');
         console.log('response -> ', response);
  
     } catch (e) {
@@ -52,11 +52,25 @@ async function createCluster(){
         await client.close();
     }
 }
-//createCluster().catch(console.error);
-//getAllProjectInOrg().catch(console.error);
-// createProjectInOrg('secondProject').catch(console.error);
-//getAllUserInOneProject().catch(console.error);
-//createTeamInProject('team', 'rajeshshegokar510@gmail.com').catch(console.error); // error in atlas api 
+
+async function getDatabaseUsersfromProject(){
+    try {
+        const response = await getDatabaseUsersfromProjectId('61017ea7811566202c046b85');
+        console.log('response -> ', response);
+ 
+    } catch (e) {
+        console.error(e);
+    } finally {
+        await client.close();
+    }
+}
+
+getAllProjectInOrg().catch(console.error);
+//createProjectInOrg('secondProject').catch(console.error);
 //addUserToOrg('"jiten.miglani@janbask.com"').catch(console.error);
-addUserToTeam("jiten.miglani@janbask.com").catch(console.error);
+//createCluster().catch(console.error);
+//getDatabaseUsersfromProject().catch(console.error);
+//createTeamInProject('team', 'rajeshshegokar510@gmail.com').catch(console.error); // error in atlas api 
+//addUserToTeam("jiten.miglani@janbask.com").catch(console.error);
+//getAllUserInOneProject().catch(console.error);
 // main().catch(console.error);

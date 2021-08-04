@@ -2,9 +2,9 @@ const httpClient = require('urllib');
 
 const config = {
     baseUrl: 'https://cloud.mongodb.com/api/atlas/v1.0',
-    publicKey: 'ketooowq',
-    privateKey: '442b2888-a100-421d-b898-4de6478009b6',
-    orgId: '60d84fac927d0e2d9cd151c7'
+    publicKey: 'uizpmvji',
+    privateKey: 'd21a3485-9abc-427c-8226-f306f7a53c00',
+    orgId: '61017ea7811566202c046b7f'
 }
 
 async function listDatabases(client){
@@ -16,17 +16,14 @@ async function listDatabases(client){
 };
 
 async function createProject(projectName){
-    const postData = {
-            name: projectName,
-            orgId: '60d84fac927d0e2d9cd151c7'
-    };
+    
     const options = {
         method: 'POST',
         rejectUnauthorized: false,
-        digestAuth: "ketooowq:442b2888-a100-421d-b898-4de6478009b6",
+        digestAuth: `${config.publicKey}:${config.privateKey}`,
         data: {
             name: projectName,
-            orgId: '60d84fac927d0e2d9cd151c7'
+            orgId: config.orgId
         },
         headers: { 
           'Content-Type': 'application/json'
@@ -36,8 +33,7 @@ async function createProject(projectName){
         if (err) {
           console.log(err);
         }
- 
-        //console.log(data.toString('utf8'));
+
         return data.toString('utf8');
       }
       await httpClient.request(config.baseUrl + '/groups', options, responseHandler);
@@ -48,7 +44,7 @@ async function getAllProject(){
   const options = {
       method: 'GET',
       rejectUnauthorized: false,
-      digestAuth: "ketooowq:442b2888-a100-421d-b898-4de6478009b6",
+      digestAuth: `${config.publicKey}:${config.privateKey}`,
       headers: { 
         'Content-Type': 'application/json'
       }
@@ -66,12 +62,12 @@ async function getAllProject(){
 };
 
 
-async function createClusterInProject(clusterName){
+async function createClusterInProject(clusterName, groupId){
   
   const options = {
       method: 'POST',
       rejectUnauthorized: false,
-      digestAuth: "ketooowq:442b2888-a100-421d-b898-4de6478009b6",
+      digestAuth: `${config.publicKey}:${config.privateKey}`,
       data: {
         "name": clusterName,
         "diskSizeGB": 100,
@@ -109,20 +105,19 @@ async function createClusterInProject(clusterName){
       if (err) {
         console.log(err);
       }
-      // console.log(res.statusCode);
-      // console.log(res.headers);
+ 
       console.log(data.toString('utf8'));
       return data.toString('utf8');
     }
-    await httpClient.request(config.baseUrl + '/groups/60e1e000b2e26b05936589cf/clusters?pretty=true"', options, responseHandler);
+    await httpClient.request(config.baseUrl + '/groups/' + groupId + '/clusters?pretty=true"', options, responseHandler);
 };
 
-async function getAllUserInOneProject(){
+async function getAllUserInOneProject(groupId){
   
   const options = {
       method: 'GET',
       rejectUnauthorized: false,
-      digestAuth: "ketooowq:442b2888-a100-421d-b898-4de6478009b6",
+      digestAuth: `${config.publicKey}:${config.privateKey}`,
       headers: { 
         'Content-Type': 'application/json'
       }
@@ -131,12 +126,11 @@ async function getAllUserInOneProject(){
       if (err) {
         console.log(err);
       }
-      // console.log(res.statusCode);
-      // console.log(res.headers);
+   
       console.log(data.toString('utf8'));
       return data.toString('utf8');
     }
-    await httpClient.request(config.baseUrl + '/groups/60eda065c7b14116570d0b32/users', options, responseHandler);
+    await httpClient.request(config.baseUrl + '/groups/' + groupId + '/users', options, responseHandler);
 };
 
 async function createTeamInProject(teamName, username){
@@ -144,7 +138,7 @@ async function createTeamInProject(teamName, username){
   const options = {
       method: 'POST',
       rejectUnauthorized: false,
-      digestAuth: "ketooowq:442b2888-a100-421d-b898-4de6478009b6",
+      digestAuth: `${config.publicKey}:${config.privateKey}`,
       data: { 
               name : teamName, 
               usernames: [username]       // emailId 
@@ -157,8 +151,6 @@ async function createTeamInProject(teamName, username){
       if (err) {
         console.log(err);
       }
-      // console.log(res.statusCode);
-      // console.log(res.headers);
       console.log(data.toString('utf8'));
       return data.toString('utf8');
     }
@@ -170,7 +162,7 @@ async function addUserToOrg(emailId){
   const options = {
       method: 'POST',
       rejectUnauthorized: false,
-      digestAuth: "ketooowq:442b2888-a100-421d-b898-4de6478009b6",
+      digestAuth: `${config.publicKey}:${config.privateKey}`,
       data: {
               "username": emailId,
               "roles":["ORG_MEMBER"] // can add multiple role
@@ -183,20 +175,18 @@ async function addUserToOrg(emailId){
       if (err) {
         console.log(err);
       }
-      // console.log(res.statusCode);
-      // console.log(res.headers);
       console.log(data.toString('utf8'));
       return data.toString('utf8');
     }
     await httpClient.request(config.baseUrl + '/orgs/'+ config.orgId + '/invites', options, responseHandler);
 };
 
-async function addUserToTeam(emailId){
+async function addUserToTeam(emailId, teamId){
   
   const options = {
       method: 'POST',
       rejectUnauthorized: false,
-      digestAuth: "ketooowq:442b2888-a100-421d-b898-4de6478009b6",
+      digestAuth: `${config.publicKey}:${config.privateKey}`,
       data: {
               "id" : emailId 
             },
@@ -212,8 +202,30 @@ async function addUserToTeam(emailId){
       console.log(data.toString('utf8'));
       return data.toString('utf8');
     }
-    await httpClient.request(config.baseUrl + '/orgs/'+ config.orgId + '/teams/60eda9723099286a42d553af/users', options, responseHandler);
+    await httpClient.request(config.baseUrl + '/orgs/'+ config.orgId + '/teams/' + teamId + '/users', options, responseHandler);
 };
+
+async function getDatabaseUsersfromProjectId(projectId){
+  
+  const options = {
+      method: 'GET',
+      rejectUnauthorized: false,
+      digestAuth: `${config.publicKey}:${config.privateKey}`,
+      headers: { 
+        'Content-Type': 'application/json'
+      }
+    };
+    const responseHandler = (err, data, res) => {
+      if (err) {
+        console.log(err);
+      }
+      
+      console.log(data.toString('utf8'));
+      return data.toString('utf8');
+    }
+    return await httpClient.request(config.baseUrl + '/groups/' + projectId+ '/databaseUsers', options, responseHandler);
+};
+
 
 module.exports = {
     listDatabases,
@@ -222,5 +234,6 @@ module.exports = {
     createClusterInProject,
     getAllUserInOneProject,
     createTeamInProject,
-    addUserToTeam
+    addUserToTeam,
+    getDatabaseUsersfromProjectId
 }
